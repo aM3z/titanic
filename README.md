@@ -1,2 +1,2 @@
 # titanic
-Using decision trees to predicting the survival of passengers of the RMS Titanic.
+Using decision trees to predict survival on the RMS Titanic.
