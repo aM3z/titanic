@@ -12,4 +12,9 @@ Wikipedia contributors.
 \newblock Retrieved 18:34, April 5, 2017, from \url{
   https://en.wikipedia.org/w/index.php?title=Decision_tree_learning&oldid=773803391}.
 
+\bibitem{shannon}
+C.E. Shannon.
+\newblock A mathematical theory of communication.
+\newblock {\em University of Illinois Press}, 1949.
+
 \end{thebibliography}

@@ -72,7 +72,7 @@
 \pagestyle{empty}
 \onehalfspacing
 
-\title{Proposal: Titanic Survivability}
+\title{Proposal: Surviving the Titanic}
 
 \author{
 	Pacific Lutheran University  \\
@@ -102,6 +102,34 @@
 	\section{Implementation}\label{implementation}
 	
 	For the passengers on the Titanic, there were only two outcomes, namely, survive and not survive. Thus, they can be grouped into two disjoint sets or classes. We will use a decision tree to predict the class two which each passenger belongs.
+	
+	\subsection{C4.5 Algorithm}\label{C4.5 Algorithm}
+	We will generate the decision tree using the C4.5 algorithm --- an ID3 extension developed by Ross Quinton.
+	Like its predecessor, C4.5 uses information entropy to a perform recursive binary partitioning of a given feature space. 
+		
+%	\begin{definition}[Entropy]
+%		Suppose a set of possible events have probabilities of occurrence $p_1, p_2, \ldots, p_n$.
+%		We define $p_i \log_2 p_i := 0$ if $p_i = 0$.
+%		Then \textbf{entropy} is the function $H:p_1,p_2,\ldots,p_n \to \R$ defined by 
+%		$$H(p_1,p_2,\ldots,p_n) := -K\sum_{i=1}^n p_i \log_2 p_i,$$
+%		where $K$ is a positive constant.
+%	\end{definition}
+
+	\begin{definition}[Entropy, \cite{shannon}]
+		Let $S$ be a dataset, let $X$ be the set of classes in $S$, and let $p(x)$ be the proportion of the number of elements in class $x \in X$ to the number of elements in $S$. We define $p(x) \log_2 p(x) := 0$ if $p(x) = 0$. Then \textbf{entropy} is the function $H:S \to \R$ defined by 
+		$$H := -\sum_{x \in X} p(x) \log_2 p(x).$$
+	\end{definition}
+	
+	\begin{definition}[Information gain]
+		Let $H(S)$ be the entropy of set $S$, let $T$ be a collection of subsets created by partitioning $S$ by feature $F$ such that $S = \bigcup_{t \in T}t$, let $p(t)$ be the proportion of the number of elements in class $t \in T$ to the number of elements in $S$, and let $H(t)$ be the entropy of $t$. 
+		Then \textbf{information gain} is the function $IG: F \times S \to \R$ defined by 
+		$$IG(F, S) := H(S) - \sum_{t \in T} p(t) H(t).$$
+	\end{definition}
+	
+	C4.5 uses a set of training data, a set of classified samples $S = s_1,s_2,\ldots$, to build decision trees. Each sample $s_i \in \R^n$, $s_i = (x_1,x_2,\ldots,s_{n-1}, y)$, where each $x_i$ represents a feature of $s_i$ and $y$ represents the class label for $s_i$ 
+	
+	At each node of the tree, C4.5 chooses the feature that most effectively partitions $S$ into subsets $S_1, S_2, \ldots S_m \subset S$. This is done using the concept of information gain; that is, the attribute with the largest normalized information gain is used to partition $S$. This is done recursively until for each subset $S_i$ of $S$, $$s_1, s_2 \in S_i \implies y_1 = y_2$$
+	where $y_1$ is the $y$ entry in $s_1$ and $y_2$ is the $y$ entry in $s_2$.
 
 	\subsection{Learning Model}\label{implementation:learning model}
 	
@@ -127,8 +155,8 @@
 		\begin{tabular}{lll}
 			\textbf{Start Date} & \textbf{Duration} & \textbf{Task} \\
 			April 10 or April 12 & N/A & Project Proposal Presentation \\
-			April 3 & 1 week & Generate features. \\
-			April 10 & 2 week & Implement Decision Tree \\
+			April 3 & 1 week & Generate features \\
+			April 10 & 2 week & Implement model \\
 			April 24 & 1 week & Train/Test \\
 			May 1 & 1 week & Predict \\
 			May 8 & 1 week & Prepare final presentation \\
