@@ -30,7 +30,7 @@ def entropy(arr, base):
         if n > 0: # skip negative values of n
             p = n / n_sum
             result = result + p * log(p, base)
-    if result == 0: # don't negative 0
+    if result == 0: # don't negate 0
         return result
     else:
         return -result
