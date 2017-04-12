@@ -128,7 +128,7 @@
 	
 	C4.5 uses a set of training data, a set of classified samples $S = s_1,s_2,\ldots$, to build decision trees. Each sample $s_i \in \R^n$, $s_i = (x_1,x_2,\ldots,s_{n-1}, y)$, where each $x_i$ represents a feature of $s_i$ and $y$ represents the class label for $s_i$ 
 	
-	At each node of the tree, C4.5 chooses the feature that most effectively partitions $S$ into subsets $S_1, S_2, \ldots S_m \subset S$. This is done using the concept of information gain; that is, the attribute with the largest normalized information gain is used to partition $S$. This is done recursively until for each subset $S_i$ of $S$, $$s_1, s_2 \in S_i \implies y_1 = y_2$$
+	At each node of the tree, C4.5 chooses the feature that most effectively partitions $S$ into subsets $S_1, S_2, \ldots S_m \subset S$. This is done using the concept of information gain; that is, the attribute with the largest normalized information gain is used to partition $S$. This is done recursively until for each subset $S_i$ of $S$, $$s_1, s_2 \in S_i \wedge s_1 \neq s_2 \implies y_1 = y_2$$
 	where $y_1$ is the $y$ entry in $s_1$ and $y_2$ is the $y$ entry in $s_2$.
 
 	\subsection{Learning Model}\label{implementation:learning model}
