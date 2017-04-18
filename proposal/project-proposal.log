@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.1.27)  11 APR 2017 08:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.1.27)  17 APR 2017 19:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -382,7 +382,16 @@ e
 Class amsproc Warning: Abstract should precede \maketitle in AMS document class
 es; reported on input line 95.
 
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[2]
+Overfull \hbox (4.65079pt too wide) in paragraph at lines 208--210
+ \OT1/cmr/bx/n/12 3.4.Predict.[] \OT1/cmr/m/n/12 Pre-dic-tions from our C4.5 im
+-ple-men-ta-tion and the bag-ging meta-estimator
+ []
+
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 ) [3]
@@ -390,11 +399,11 @@ File: lstlang1.sty 2015/06/04 1.6 listings language file
 Here is how much of TeX's memory you used:
  5388 strings out of 494953
  70758 string characters out of 6180977
- 163063 words of memory out of 5000000
+ 161291 words of memory out of 5000000
  8420 multiletter control sequences out of 15000+600000
  13361 words of font info for 55 fonts, out of 8000000 for 9000
  175 hyphenation exceptions out of 8191
- 38i,8n,43p,889b,1158s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,8n,43p,892b,1698s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/font
@@ -407,12 +416,11 @@ fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on project-proposal.pdf (4 pages, 155070 bytes).
+f-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on project-proposal.pdf (4 pages, 153599 bytes).
 PDF statistics:
- 73 PDF objects out of 1000 (max. 8388607)
- 52 compressed objects within 1 object stream
+ 69 PDF objects out of 1000 (max. 8388607)
+ 49 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

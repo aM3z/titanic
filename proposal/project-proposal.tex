@@ -93,19 +93,19 @@
 	\maketitle
 		
 	\begin{abstract}
-	We will use passenger data from the sinking of the RMS Titanic to predict survival. Creating a feature space we give us the opportunity to experiment with feature generation. Implementing C4.5, a decision tree algorithm for continuous features and binary classification, will deepen our understanding of machine learning models.
+	We will use passenger data from the sinking of the RMS Titanic to predict survival. Creating a feature space we give us the opportunity to experiment with feature generation. Implementing C4.5, a decision tree algorithm for continuous features and binary classification, will deepen our understanding of machine learning models. Benchmarking with a bagging meta-estimator from scikit-learn will not only allow us to compare our implementation with another, but also give us the opportunity to familiarize ourself with a robust machine learning library
 	\end{abstract}
 	
 	\section{Introduction}\label{intro}
-	The RMS Titanic sank on 15 April 1912, after colliding with an iceberg during its maiden voyage from Southampton to New York. Out of 2224 passengers and crew, 1502 lost their lives. Interestingly, some groups of people were more likely to survive, such as women, children, and the upper class. We would like to identify more factors that improved the likelihood of survival. Furthermore, we will map these factors to an appropriate feature space. And finally, we will implement and train a Decision Tree to analyze what sorts of people were likely to survive.
+	The RMS Titanic sank on 15 April 1912, after colliding with an iceberg during its maiden voyage from Southampton to New York. Out of 2224 passengers and crew, 1502 lost their lives. Interestingly, some groups of people were more likely to survive, such as women, children, and the upper class. We would like to identify more factors that improved the likelihood of survival. Furthermore, we will map these factors to an appropriate feature space. And finally, we will implement and train a Decision Tree to analyze what sorts of people were likely to survive and compare its accuracy with that of a bagging-meta estimator from sciki-learn.
 	
 	\section{Implementation}\label{implementation}
 	
-	For the passengers on the Titanic, there were only two outcomes, namely, survive and not survive. Thus, they can be grouped into two disjoint sets or classes. We will use a decision tree to predict the class two which each passenger belongs.
+	For the passengers on the Titanic, there were only two outcomes, namely survive and not survive. Thus, they can be grouped into two disjoint sets or classes. We will use a decision tree to predict the class two which each passenger belongs.
 	
 	\subsection{C4.5 Algorithm}\label{C4.5 Algorithm}
 	We will generate the decision tree using the C4.5 algorithm --- an ID3 extension developed by Ross Quinton.
-	Like its predecessor, C4.5 uses information entropy to a perform recursive binary partitioning of a given feature space. 
+	Like its predecessor, C4.5 uses information entropy to perform recursive binary partitioning of a given feature space. 
 		
 %	\begin{definition}[Entropy]
 %		Suppose a set of possible events have probabilities of occurrence $p_1, p_2, \ldots, p_n$.
@@ -115,7 +115,7 @@
 %		where $K$ is a positive constant.
 %	\end{definition}
 
-	\begin{definition}[Entropy, \cite{shannon}]
+	\begin{definition}[Entropy \cite{shannon}]
 		Let $S$ be a dataset, let $X$ be the set of classes in $S$, and let $p(x)$ be the proportion of the number of elements in class $x \in X$ to the number of elements in $S$. We define $p(x) \log_2 p(x) := 0$ if $p(x) = 0$. Then \textbf{entropy} is the function $H:S \to \R$ defined by 
 		$$H := -\sum_{x \in X} p(x) \log_2 p(x).$$
 	\end{definition}
@@ -134,15 +134,16 @@
 	\subsection{Learning Model}\label{implementation:learning model}
 	
 	There are many decision-tree algorithms. Notable ones include ID3 (Iterative Dichotomiser 3) and C4.5 (successor to ID3) \cite{wikipedia:decision_tree}. 
+	Since C4.5 made a number of important improvements to ID3, like the ability to handle both discreet and continuous attributes and allowing attributes to be marked ? for missing, we choose this algorithm.
 	
-	Since C4.5 made a number of important improvements to ID3, like the ability to handle both discreet and continuous attributes and allowing attributes to be marked ? for missing, we use this algorithm.
+	\subsection{Work Allocation}
 	
-	This will require several subtasks, namely,
+	This implementation will require several subtasks, namely
 	
 	\begin{enumerate}
-		\item computing entropy gain,
-		\item creating a decision node, and
-		\item recursively splitting (binary) the feature space. 
+		\item creating data structures for representing datasets and feature spaces,
+		\item implementing the C4.5 algorithm, and
+		\item training/testing the bagging meta-estimator. 
 	\end{enumerate}
 	
 	Each task is assigned to a different group member: (1) Miguel, (2) Nicholas, and (3) Quinton. 
@@ -170,7 +171,7 @@
 	\section{Method}\label{method}
 	
 	\subsection{Data}\label{method:data}
-	The data have been partitioned into two disjoint subsets, $E$ and $F$, such that the cardinality of $F$ is about one half the cardinality of $E$; that is, $|F| \approx \frac{1}{2} |E|$. As demonstrated in Table \ref{table:data dictionary}, the data have ten variables for each passenger. Note that \textbf{pclass} is a proxy for the socio-economic status of the passenger. Also, \textbf{age} is fractional if less than one, or in the form of $xx.5$ if the age was estimated. For \textbf{sibsp}, a sibling is defined as a brother, sister, stepbrother, stepsister, and a spouse is defined as a husband, wife (mistresses and fianc\'{e}s were ignored). Similarly for \textbf{parch}, a parent is a mother or father and a child is a daughter, son, stepdaughter, or stepson. If children traveled with a nanny, then parch = 0 for them \cite{kaggle}.
+	The data have been partitioned into two disjoint subsets, $E$ and $F$, such that the cardinality of $F$ is about one half of the cardinality of $E$; that is, $|F| \approx \frac{1}{2} |E|$. As demonstrated in Table \ref{table:data dictionary}, the data have ten variables for each passenger. Note that \textbf{pclass} is a proxy for the socio-economic status of the passenger. Also, \textbf{age} is fractional if less than one, or in the form of $xx.5$ if the age was estimated. For \textbf{sibsp}, a sibling is defined as a brother, sister, stepbrother, stepsister, and a spouse is defined as a husband, wife (mistresses and fianc\'{e}s were ignored). Similarly for \textbf{parch}, a parent is a mother or father and a child is a daughter, son, stepdaughter, or stepson. If children traveled with a nanny, then parch = 0 for them \cite{kaggle}.
 	 
 
 	\begin{table}[h]
@@ -194,17 +195,17 @@
 	
 	
 	\subsection{Train}\label{method:train}
-	The larger subset of data, $E$, will be used to build the machine learning model.
+	The larger subset of data $E$ will be used to build the machine learning model. We will also fit this training set to the bagging meta-estimator from scikit-learn. This bagging classifier in turn fits an ensemble of classification trees, each on random subsets of the original set. Such an estimator should reduce the variance that plagues decision trees, thereby outperforming our implementation of the C4.5 algorithm.
 	
 	\subsection{Test}\label{method:test}
-	We will use dataset $F$ to see how well the model performs on unseen data. 
+	We will use dataset $F$ to see how well the model performs on unseen data. As with training, we will also test the bagging estimator with this dataset.
 	
 	\subsection{Predict}\label{method:predict}
 	
 %	\subsubsection{Goal}\label{method:predict:goal}
 %	We will predict whether or not a passenger survived the sinking of the Titanic. 
 
-	Predictions will be recorded in a csv file with exactly 418 entries and a header row, as in Listing 1. The file will have exactly 2 columns:
+	Predictions from our C4.5 implementation and the bagging meta-estimator will be recorded in distinct .csv files. Each file will have exactly 418 entries and a header row, as in Listing 1.  Each file will have exactly 2 columns:
 	\begin{itemize}
 		\item PassengerId (sorted in any order), and
 		\item Survived (contains binary predictions: 1 for survived, 0 for deceased).
@@ -217,13 +218,15 @@
 		894,0
 		Etc.\end{lstlisting}
 		
-	We will use the following metric to see how well the model performed.
+	We will use the following metric to see how well our implementation of the C4.5 algorithm performs.
 
 	\begin{definition}[Accuracy]\label{definition:accuracy}
-		Let $c,i \in \N$ such that $c + i \neq 0$ with $c$ equal to the number of correct predictions and $i$ equal to the number of incorrect predictions, and let $\mathscr{A}: \N \to [0,1] \cap \R$ be the function defined by   
-		$$\mathscr{A}(c,i) := \frac{c}{c + i}.$$
-		This function is a statistical measure known as accuracy. 
+		Let $c,i \in \N$ such that $c + i \neq 0$ with $c$ equal to the number of correct predictions and $i$ equal to the number of incorrect predictions, and let $f: \N \to [0,1] \cap \R$ be the function defined by   
+		$$f(c,i) := \frac{c}{c + i}.$$
+		This function is the statistical measure commonly known as accuracy. 
 	\end{definition}
+	
+	As for the bagging meta-estimator, scikit-learn provides a method for computing the mean accuracy on the given test data and labels. 
 	
 	\section{Conclusion}\label{conclusions}
 	Not only is the sinking of the RMS Titanic an interesting historical event, but an opportunity to design a machine learning model and test its performance. Since we are familiar with ID3, implementing its successor C4.5 will allow us to build on previous knowledge. The hands-on experience stemming from making our own implementation will deepen our understanding of machine learning models.
