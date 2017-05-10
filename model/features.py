@@ -2,6 +2,8 @@ import json
 from io import TextIOBase
 import random
 
+DATA_DIR = "../preprocessing/"
+
 def randomize(featureSpace, survived):
    ind_list = list(range(len(featureSpace)))
    print(ind_list)
@@ -17,10 +19,9 @@ def randomize(featureSpace, survived):
    return featureGroup, survival
    
 
-def getData():
-   featureSpace = json.loads(open("../../titanic/preprocessing/features.json").read())
-   survived = json.loads(open("../../titanic/preprocessing/survived.json").read())
+def get_data():
+   featureSpace = json.loads(open(DATA_DIR + "features.json").read())
+   survived = json.loads(open(DATA_DIR + "survived.json").read())
    featureSpace, survived = randomize(featureSpace, survived)
    return featureSpace, survived
 
-getData()
