@@ -14,16 +14,16 @@ public class DatasetCleanup {
 	private static Number[][] featuresForJson;
 		
 	public static void main(String[] args) {
-		readFile("train.csv");
+		readFile("../../titanic/data/train.csv");
 		createFeatureSpace();
 		fillMissingValues();
 		createFamilySizeFeature();
 		createAgeIntervalFeature();
 		createDeckFeature();
 		fillMissingValues();
-		passengerInfo();
-		//prepForJson();
-		//toJson();
+		//passengerInfo();
+		prepForJson();
+		toJson();
 	}
 	private static void readFile(String fileName) {
 		try {
@@ -62,7 +62,7 @@ public class DatasetCleanup {
 			String[] features = featureGroup.poll();
 			String name = (features[3] + "," + features[4]);
 			name = name.substring(1, name.length() - 1);
-			//System.out.println(name);
+			System.out.println(name);
 			featureSpace[i][0] = features[0];
 			survival[i] = Integer.parseInt(features[1]);
 			featureSpace[i][1] = features[2];
