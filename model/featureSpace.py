@@ -18,8 +18,8 @@ def randomize(featureSpace, survived):
    
 
 def getData():
-   featureSpace = json.loads(open("features.json").read())
-   survived = json.loads(open("survived.json").read())
+   featureSpace = json.loads(open("../../titanic/preprocessing/features.json").read())
+   survived = json.loads(open("../../titanic/preprocessing/survived.json").read())
    featureSpace, survived = randomize(featureSpace, survived)
    return featureSpace, survived
 
