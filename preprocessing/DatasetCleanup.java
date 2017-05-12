@@ -402,7 +402,7 @@ public class DatasetCleanup {
 			features.print(featuresForJson[i][10] + "],");
 		}
 		features.print("[");
-		for(int i = 0; i < 10; i++)
+		for(int i = 1; i < 10; i++)
 			features.print(featuresForJson[groupSize - 1][i] + ",");
 		features.print(featuresForJson[groupSize - 1][10] + "]]");
       if(dataFilename.equals("train")) {
