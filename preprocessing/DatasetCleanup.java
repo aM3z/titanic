@@ -191,7 +191,7 @@ public class DatasetCleanup {
 	private static void fillMissingValues() {
 		for(int i = 0; i < groupSize; i++) {
 			for(int j = 0; j < labels.length; j++) {
-				if(featureSpace[i][j].equals("") || featureSpace[i][j].equals("null"))
+				if(featureSpace[i][j].equals(null) || featureSpace[i][j].equals(""))
 					featureSpace[i][j] = String.valueOf(-1);
 			}
 		}
@@ -277,8 +277,6 @@ public class DatasetCleanup {
 				break;
 			case "Q": featuresForJson[i][6] = 2;
 				break;
-         case "-1": featuresForJson[i][6] = -1;
-            break;
 			}
 			switch(featureSpace[i][11]) {
 			case "Mr.": featuresForJson[i][7] = 0;
