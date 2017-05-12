@@ -2,7 +2,7 @@
 
 from math import log
 
-class DecisionTree:
+class DecisionTreeClassifier:
 
     def __init__(self, max_depth, min_size):
         self.max_depth = max_depth
