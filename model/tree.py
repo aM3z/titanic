@@ -57,6 +57,11 @@ class DecisionTreeClassifier:
         else:
             print('%s[%s]' % ((depth*' ', node)))
 
+    def export_graphviz(out_file="tree.dot"):
+        # with open(out_file. "w") as f:
+        return None
+
+
     # create child splits for a node or make terminal
     def split(self, node, max_depth, min_size, depth):
 
