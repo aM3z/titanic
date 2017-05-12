@@ -7,6 +7,7 @@ import java.util.Queue;
 public class DatasetCleanup {
 	private static Scanner data;
 	private static Scanner in = new Scanner(System.in);
+   private static final String FILE_PATH = "../data/";
 	private static String[] labels;
 	private static int groupSize;
 	private static String[][] featureSpace;
@@ -14,16 +15,21 @@ public class DatasetCleanup {
 	private static Number[][] featuresForJson;
 		
 	public static void main(String[] args) {
-		readFile("../../titanic/data/train.csv");
-		createFeatureSpace();
+		System.out.print("Enter the name of the set to be cleaned >>> ");
+		String fileName = in.nextLine();
+		readFile(FILE_PATH + fileName + ".csv");
+		if(fileName.equals("train"))
+			createFeatureSpaceTrain();
+		else
+			createFeatureSpaceTest();
 		fillMissingValues();
 		createFamilySizeFeature();
 		createAgeIntervalFeature();
 		createDeckFeature();
 		fillMissingValues();
-		//passengerInfo();
+		//passengerInfo(fileName);
 		prepForJson();
-		toJson();
+		toJson(fileName);
 	}
 	private static void readFile(String fileName) {
 		try {
@@ -34,11 +40,13 @@ public class DatasetCleanup {
 			System.exit(0);
 		}
 	}
-	private static void createFeatureSpace() {
+	private static void createFeatureSpaceTrain() {
 		String line;
 		Queue<String[]> featureGroup = new LinkedList<String[]>();
 		while(data.hasNext()) {
 			line = data.nextLine();
+         if(line.endsWith(","))
+            line = line + "-1";
 			String[] features = line.split(",");
 			//for(int i = 0; i < features.length; i++)
 				//System.out.println(features[i]);
@@ -77,6 +85,53 @@ public class DatasetCleanup {
 				features[11] = features[11].substring(2);
 			featureSpace[i][9] = features[11];
 			featureSpace[i][10] = features[12];
+			featureSpace[i][11] = createTitleFeature(i, features[4].trim());
+			//System.out.println(featureSpace[i][0] + ": " + featureSpace[i][11]);
+		}
+	}
+   private static void createFeatureSpaceTest() {
+		String line;
+		Queue<String[]> featureGroup = new LinkedList<String[]>();
+		while(data.hasNext()) {
+			line = data.nextLine();
+         if(line.endsWith(","))
+            line = line + "-1";
+			String[] features = line.split(",");
+			//for(int i = 0; i < features.length; i++)
+				//System.out.println(features[i]);
+			featureGroup.add(features);
+		}
+		String[] headers = featureGroup.poll();
+		labels = new String[headers.length - 1];
+		groupSize = featureGroup.size();
+		int j = 0;
+		for(int i = 0; i < headers.length - 1; i++) {
+			if(i == 1)
+				j = 1;
+			labels[i] = headers[i + j];
+			//System.out.println(labels[i]);
+		}
+		featureSpace = new String[groupSize][12];
+		//System.out.println(groupSize);
+		addNewLabel("Title");
+		for(int i = 0; i < groupSize; i++) {
+			String[] features = featureGroup.poll();
+			String name = (features[2] + "," + features[3]);
+			name = name.substring(1, name.length() - 1);
+			System.out.println(name);
+			featureSpace[i][0] = features[0];
+			featureSpace[i][1] = features[1];
+			featureSpace[i][2] = name;
+			featureSpace[i][3] = features[4];
+			featureSpace[i][4] = features[5];
+			featureSpace[i][5] = features[6];
+			featureSpace[i][6] = features[7];
+			featureSpace[i][7] = features[8];
+			featureSpace[i][8] = features[9];
+			if(features[10].startsWith("F "))
+				features[10] = features[10].substring(2);
+			featureSpace[i][9] = features[10];
+			featureSpace[i][10] = features[11];
 			featureSpace[i][11] = createTitleFeature(i, features[4].trim());
 			//System.out.println(featureSpace[i][0] + ": " + featureSpace[i][11]);
 		}
@@ -196,7 +251,7 @@ public class DatasetCleanup {
 			}
 		}
 	}
-	private static void passengerInfo() {
+	private static void passengerInfo(String dataFilename) {
 		System.out.println("Please type in a Passenger ID Number. Enter a blank to quit.");
 		String passID;
 		int pID;
@@ -218,7 +273,8 @@ public class DatasetCleanup {
 			for(int i = 0; i < labels.length; i++) {
 				System.out.println(String.format("%1$-13s", labels[i] + ":") + featureSpace[pID - 1][i]);
 			}
-			System.out.println(String.format("%1$-13s", "Survived:") + survival[pID - 1]);
+         if(dataFilename.equals("train"))
+			   System.out.println(String.format("%1$-13s", "Survived:") + survival[pID - 1]);
 			System.out.println("---------------------------------------------------------");
 		} while(!passID.equals(""));
 	}
@@ -327,12 +383,13 @@ public class DatasetCleanup {
 			System.out.println(featuresForJson[i][10] + "]");
 		}
 	}
-	private static void toJson() {
+	private static void toJson(String dataFilename) {
 		PrintStream features = null;
 		PrintStream survived = null;
 		try {
 			features = new PrintStream(new File("features.json"));
-			survived = new PrintStream(new File("survived.json"));
+         if(dataFilename.equals("train"))
+			   survived = new PrintStream(new File("survived.json"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -348,10 +405,12 @@ public class DatasetCleanup {
 		for(int i = 0; i < 10; i++)
 			features.print(featuresForJson[groupSize - 1][i] + ",");
 		features.print(featuresForJson[groupSize - 1][10] + "]]");
-		survived.print("[");
-		for(int i = 0; i < groupSize - 1; i++) {
-			survived.print(survival[i] + ",");
-		}
-		survived.print(survival[groupSize - 1] + "]");
+      if(dataFilename.equals("train")) {
+		   survived.print("[");
+		   for(int i = 0; i < groupSize - 1; i++) {
+		   	survived.print(survival[i] + ",");
+		   }
+		   survived.print(survival[groupSize - 1] + "]");
+      }
 	}
 }
