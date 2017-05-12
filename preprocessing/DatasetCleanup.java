@@ -277,6 +277,8 @@ public class DatasetCleanup {
 				break;
 			case "Q": featuresForJson[i][6] = 2;
 				break;
+         case "-1": featuresForJson[i][6] = -1;
+            break;
 			}
 			switch(featureSpace[i][11]) {
 			case "Mr.": featuresForJson[i][7] = 0;
