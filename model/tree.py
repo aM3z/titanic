@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from math import log
+import time
 
 class DecisionTreeClassifier:
 
@@ -24,10 +25,8 @@ class DecisionTreeClassifier:
                 raise ValueError("all samples are not the same length")
             sample = row + [y[index]]
             dataset.append(sample)
-        print(dataset)
         self.root = self.get_split(dataset)
         self.split(self.root, self.max_depth, self.min_size, 1)
-        return self.root
 
     def predict(self, sample):
         return self.predict_helper(self.root, sample)
@@ -57,14 +56,50 @@ class DecisionTreeClassifier:
         else:
             print('%s[%s]' % ((depth*' ', node)))
 
-    def export_graphviz(out_file="tree.dot"):
-        # with open(out_file. "w") as f:
-        return None
+    def export_graphviz(self, out_file="tree.dot"):
+        with open(out_file, "w") as f:
+            f.write("digraph Tree {\nnode [shape=box] ;\n")
+            f.write(self.export_graphviz_helper(self.root))
+            f.write("}")
+
+    def export_graphviz_helper(self, node, pid=None, side=None):
+        time.sleep (1.0 / 1000.0);
+        nid = str(time.time())
+        if isinstance(node, dict):
+            #if pid is None:
+            #    nid = "1"
+            #else:
+            #    nid = str(node['index']+1) + str(node['value'])
+            result = '%s [label="X[%d] <= %.3f\\ngain = %.3f\\nsamples = %d"] ;\n' % ((nid, (node['index']+1), node['value'], node["gain"], node['samples']))
+            # print('%s [label="X[%d] <= %.3f\\ngain = %.3f\\nsamples = %d"] ;' % ((nid, (node['index']+1), node['value'], node["gain"], node['samples'])))
+            if pid is not None:
+                result += "%s -> %s ;\n" % (pid, nid)
+                #print("%s -> %s ;" % (pid, nid))
+            result += self.export_graphviz_helper(node['left'], nid, side=0)
+            result += self.export_graphviz_helper(node['right'], nid, side=1)
+        else:
+            #predictions = node['left'] + node['right']
+            #pos = 0
+            #for prediction in predictions:
+            #    pos += prediction
+            #neg = len(predictions) - pos
+            if node == 1:
+                node = "Survive"
+                color = "green"
+            else:
+                node = "Die"
+                color = "red"
+            # print('%s [label="%s"] ;' % (nid, node))
+            # print("%s -> %s ;" % (pid, nid))
+            result = '%s [label = "%s", color = %s] ;\n' % (nid, node, color)
+            #result = '%s [label = "pos: %d, neg: %d"] ;\n' % (nid, pos, neg)
+            result += "%s -> %s ;\n" % (pid, nid)
+
+        return result
 
 
     # create child splits for a node or make terminal
     def split(self, node, max_depth, min_size, depth):
-
         left, right = node['groups']
         del(node['groups'])
 
@@ -118,7 +153,7 @@ class DecisionTreeClassifier:
                 #print(index, row[index], subsets, gain)
                 if gain >= b_gain:
                         b_index, b_value, b_gain, b_groups = index, row[index], gain, groups
-        return { "index": b_index, "value": b_value, "groups": b_groups }
+        return { "index": b_index, "value": b_value, "groups": b_groups, "samples": len(dataset), "gain": b_gain }
 
         
     def binary_entropy_gain(self, dataset, subsets, base):
