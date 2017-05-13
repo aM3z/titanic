@@ -72,7 +72,6 @@ class DecisionTreeClassifier:
             f.write("}")
 
     def export_graphviz_helper(self, node, pid=None, side=None):
-        time.sleep (1.0 / 1000.0);
         nid = str(time.time())
         if isinstance(node, dict):
             #if pid is None:
