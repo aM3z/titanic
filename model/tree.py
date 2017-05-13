@@ -2,6 +2,9 @@
 
 from math import log
 import time
+import pydot
+
+VIZ_DIR = "./viz/"
 
 class DecisionTreeClassifier:
 
@@ -55,6 +58,12 @@ class DecisionTreeClassifier:
             self.print_helper(node['right'], depth+1)
         else:
             print('%s[%s]' % ((depth*' ', node)))
+
+    def export_png(self, out_file="tree.dot"):
+        self.export_graphviz(VIZ_DIR + out_file)
+        (graph,) = pydot.graph_from_dot_file(VIZ_DIR + out_file)
+        graph.write_png(VIZ_DIR + out_file + ".png")
+
 
     def export_graphviz(self, out_file="tree.dot"):
         with open(out_file, "w") as f:
