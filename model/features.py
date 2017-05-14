@@ -25,3 +25,16 @@ def get_data():
    featureSpace, survived = randomize(featureSpace, survived)
    return featureSpace, survived
 
+def get_feature_labels():
+   labels = {0:"Passenger ID",
+             1:"Ticket Class",
+             2:"Sex",
+             3:"Age",
+             4:"Sibsp",
+             5:"Parch",
+             6:"Embark Point",
+             7:"Title",
+             8:"Family Size",
+             9:"Age Interval",
+             10:"Deck"}
+   return labels
