@@ -5,7 +5,7 @@ import random
 Module to provide easy use of the bagging meta-estimator.
 '''
 
-def train(dataset, n_estimators, max_tree_depth, min_node_records):
+def train(dataset, n_estimators):
 
 
 
@@ -19,10 +19,10 @@ def train(dataset, n_estimators, max_tree_depth, min_node_records):
     y_test = dataset[int((len(dataset)+1)*.30):]
 
     #bagging
-    ensemble.fit(x_train, y_train)
+	bag = BaggingClassifier(n_estimators)
 
-    score = ensemble.score(x_test, y_test)
+    bag.fit(x_train, y_train)
 
-    save(score)
+    score = bag.score(x_test, y_test)
 
     return score
