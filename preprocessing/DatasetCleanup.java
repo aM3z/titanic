@@ -70,7 +70,7 @@ public class DatasetCleanup {
 			String[] features = featureGroup.poll();
 			String name = (features[3] + "," + features[4]);
 			name = name.substring(1, name.length() - 1);
-			System.out.println(name);
+			//System.out.println(features[0] + ": " + name);
 			featureSpace[i][0] = features[0];
 			survival[i] = Integer.parseInt(features[1]);
 			featureSpace[i][1] = features[2];
@@ -102,13 +102,10 @@ public class DatasetCleanup {
 			featureGroup.add(features);
 		}
 		String[] headers = featureGroup.poll();
-		labels = new String[headers.length - 1];
+		labels = new String[headers.length];
 		groupSize = featureGroup.size();
-		int j = 0;
-		for(int i = 0; i < headers.length - 1; i++) {
-			if(i == 1)
-				j = 1;
-			labels[i] = headers[i + j];
+		for(int i = 0; i < headers.length; i++) {
+			labels[i] = headers[i];
 			//System.out.println(labels[i]);
 		}
 		featureSpace = new String[groupSize][12];
@@ -118,7 +115,7 @@ public class DatasetCleanup {
 			String[] features = featureGroup.poll();
 			String name = (features[2] + "," + features[3]);
 			name = name.substring(1, name.length() - 1);
-			System.out.println(name);
+			//System.out.println(features[0] + ": " + name);
 			featureSpace[i][0] = features[0];
 			featureSpace[i][1] = features[1];
 			featureSpace[i][2] = name;
@@ -132,7 +129,7 @@ public class DatasetCleanup {
 				features[10] = features[10].substring(2);
 			featureSpace[i][9] = features[10];
 			featureSpace[i][10] = features[11];
-			featureSpace[i][11] = createTitleFeature(i, features[4].trim());
+			featureSpace[i][11] = createTitleFeature(i, features[3].trim());
 			//System.out.println(featureSpace[i][0] + ": " + featureSpace[i][11]);
 		}
 	}
@@ -151,7 +148,8 @@ public class DatasetCleanup {
 		if(name[0].equalsIgnoreCase("Ms.")
 				|| name[0].equalsIgnoreCase("Mme.")
 				|| name[0].equalsIgnoreCase("Lady.")
-				|| name[0].equalsIgnoreCase("Countess.")) {
+				|| name[0].equalsIgnoreCase("Countess.")
+            || name[0].equalsIgnoreCase("Dona.")) {
 			//System.out.println("*" + featureSpace[index][0] + ": " + name[0]);
 			name[0] = "Mrs.";
 		}
@@ -170,7 +168,8 @@ public class DatasetCleanup {
 				&& !name[0].equals("Miss.")
 				&& !name[0].equals("Master.")
 				&& !name[0].equals("Dr.")
-				&& !name[0].equals("Rev.")) {
+				&& !name[0].equals("Rev.")
+            && !name[0].equals("Offcr.")) {
 			System.out.println(name[0] + "\t" + featureSpace[index][0]);
 		}
 		*/
@@ -279,19 +278,20 @@ public class DatasetCleanup {
 		} while(!passID.equals(""));
 	}
 	private static void prepForJson() {
-		ArrayList<String> sexes = new ArrayList<String>(); //index 3
-		ArrayList<String> embarks = new ArrayList<String>(); //index 10
-		ArrayList<String> titles = new ArrayList<String>(); //index 11
-		ArrayList<String> decks = new ArrayList<String>(); //index 14
-		for(int i = 0; i < groupSize; i++) {
-			if(!sexes.contains(featureSpace[i][3]))
-				sexes.add(featureSpace[i][3]);
-			if(!embarks.contains(featureSpace[i][10]))
-				embarks.add(featureSpace[i][10]);
-			if(!titles.contains(featureSpace[i][11]))
-				titles.add(featureSpace[i][11]);
-			if(!decks.contains(featureSpace[i][14]))
-				decks.add(featureSpace[i][14]);
+		ArrayList<String> sexes = new ArrayList<String>(); //Train: index 3
+		ArrayList<String> embarks = new ArrayList<String>(); //Train: index 10
+		ArrayList<String> titles = new ArrayList<String>(); //Train: index 11
+		ArrayList<String> decks = new ArrayList<String>(); //Train: index 14
+      for(int i = 0; i < groupSize; i++) {
+			System.out.println(featureSpace[i][0] + ": " + featureSpace[i][2]);
+		   if(!sexes.contains(featureSpace[i][3]))
+		   	sexes.add(featureSpace[i][3]);
+		   if(!embarks.contains(featureSpace[i][10]))
+		   	embarks.add(featureSpace[i][10]);
+		   if(!titles.contains(featureSpace[i][11]))
+		   	titles.add(featureSpace[i][11]);
+		   if(!decks.contains(featureSpace[i][14]))
+		   	decks.add(featureSpace[i][14]);
 		}
 		
 		System.out.println("Sexes: " + sexes.size() + "\t" + sexes);
@@ -305,13 +305,13 @@ public class DatasetCleanup {
 		Pclass			1		1
 		Sex				3		2
 		Age				4		3
-		Sibsp			5		4
-		Parch			6		5
-		Embarked		10		6
-		Title			11		7
+		Sibsp			   5		4
+		Parch			   6		5
+		Embarked		   10		6
+		Title			   11		7
 		FamilySize		12		8
 		AgeInterval		13		9
-		Deck			14		10
+		Deck			   14		10
 		*/
 		featuresForJson = new Number[groupSize][11];
 		for(int i = 0; i < groupSize; i++) {
@@ -387,9 +387,12 @@ public class DatasetCleanup {
 		PrintStream features = null;
 		PrintStream survived = null;
 		try {
-			features = new PrintStream(new File("features.json"));
-         if(dataFilename.equals("train"))
+         if(dataFilename.equals("train")) {
+			   features = new PrintStream(new File("features.json"));
 			   survived = new PrintStream(new File("survived.json"));
+         }
+         else
+            features = new PrintStream(new File("test_features.json"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
