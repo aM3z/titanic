@@ -8,11 +8,15 @@ VIZ_DIR = "./viz/"
 
 class DecisionTreeClassifier:
 
-    def __init__(self, max_depth, min_size):
+    def __init__(self, max_depth, min_samples_split, criterion='entropy'):
         self.max_depth = max_depth
-        self.min_size = min_size
+        self.min_size = min_samples_split
+        self.criterion = 'entropy'
         self.n_features = 0
         self.root = None
+
+    def get_params(self, deep=False):
+        return {'criterion':  self.criterion, 'min_samples_split': self.min_size, 'max_depth': self.max_depth}
 
     # build a decision tree
     def fit(self, X, y):
@@ -30,6 +34,19 @@ class DecisionTreeClassifier:
             dataset.append(sample)
         self.root = self.get_split(dataset)
         self.split(self.root, self.max_depth, self.min_size, 1)
+
+    def score(self, X_test, y_test):
+        predictions = list()
+        for sample in X_test:
+            predictions.append(self.predict(sample))
+        return self.accuracy_metric(y_test, predictions)
+
+    def accuracy_metric(self, actual, predicted):
+        correct = 0
+        for i in range(len(actual)):
+            if actual[i] == predicted[i]:
+                correct += 1
+        return correct / float(len(actual))
 
     def predict(self, sample):
         return self.predict_helper(self.root, sample)

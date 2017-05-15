@@ -19,10 +19,11 @@ def randomize(featureSpace, survived):
    return featureGroup, survival
    
 
-def get_data():
+def get_data(rand=False):
    featureSpace = json.loads(open(DATA_DIR + "features.json").read())
    survived = json.loads(open(DATA_DIR + "survived.json").read())
-   featureSpace, survived = randomize(featureSpace, survived)
+   if rand:
+        featureSpace, survived = randomize(featureSpace, survived)
    return featureSpace, survived
 
 def get_feature_labels():
