@@ -6,7 +6,7 @@ from sklearn.model_selection import cross_val_score
 from statistics import mean
 import argparse
 
-RESULTS_DIR = './results/'
+RESULTS_DIR = './results/training/'
 FOLDS = 3
 
 def tree(folds, max_depth, min_sample_size):
