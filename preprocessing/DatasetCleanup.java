@@ -194,7 +194,9 @@ public class DatasetCleanup {
 			String ageString = featureSpace[i][4];
 			if(!featureSpace[i][4].equals("")) {
 				double age = Double.parseDouble(ageString);
-				if(age <= 10)
+				if(age == -1)
+               newFeatures[i][numFeatures] = String.valueOf(-1);
+            else if(age <= 10)
 					newFeatures[i][numFeatures] = String.valueOf(0);
 				else if(age > 60)
 					newFeatures[i][numFeatures] = String.valueOf(2);
@@ -283,7 +285,7 @@ public class DatasetCleanup {
 		ArrayList<String> titles = new ArrayList<String>(); //Train: index 11
 		ArrayList<String> decks = new ArrayList<String>(); //Train: index 14
       for(int i = 0; i < groupSize; i++) {
-			System.out.println(featureSpace[i][0] + ": " + featureSpace[i][2]);
+			//System.out.println(featureSpace[i][0] + ": " + featureSpace[i][2]);
 		   if(!sexes.contains(featureSpace[i][3]))
 		   	sexes.add(featureSpace[i][3]);
 		   if(!embarks.contains(featureSpace[i][10]))
