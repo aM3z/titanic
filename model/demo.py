@@ -64,5 +64,7 @@ def user_input():
    user_features.append(deck)
    print(user_features)
    return user_features
-   
-#user_input()
+
+
+if __name__ == '__main__':
+    user_input()
