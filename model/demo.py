@@ -65,7 +65,6 @@ def user_input():
          deck = 7
       #print(deck)
    user_features.append(deck)
-   print(user_features)
    return user_features
 
 
@@ -74,9 +73,15 @@ if __name__ == '__main__':
     X, y = features.get_data()
     clf = tree.DecisionTreeClassifier(3,1)
     clf.fit(X,y)
-    input_vector = user_input()
-    survival = clf.predict(input_vector)
-    if survival == 1:
-        print("You will live.")
-    else:
-        print("You will die!")
+    while True: 
+        try:
+            input_vector = user_input()
+        except KeyboardInterrupt:
+            print("\n\nBon voyage!\n")
+            break
+        print("\n\t%s" % str(input_vector))
+        survival = clf.predict(input_vector)
+        if survival == 1:
+            print("\tYou will live.\n")
+        else:
+            print("\tYou will die!\n")
