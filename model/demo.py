@@ -1,3 +1,6 @@
+import features
+import tree
+
 def user_input():
    user_features = []
    pclass = input("   What is your socioeconomic status? ((U)pper, (M)iddle, (L)ower) >>> ")
@@ -67,4 +70,13 @@ def user_input():
 
 
 if __name__ == '__main__':
-    user_input()
+    print("Loading Decision Tree...")
+    X, y = features.get_data()
+    clf = tree.DecisionTreeClassifier(3,1)
+    clf.fit(X,y)
+    input_vector = user_input()
+    survival = clf.predict(input_vector)
+    if survival == 1:
+        print("You will live.")
+    else:
+        print("You will die!")
