@@ -6,7 +6,7 @@ from sklearn.model_selection import cross_val_score
 from statistics import mean
 import argparse
 
-RESULTS_DIR = './results/'
+RESULTS_DIR = './results/training/'
 FOLDS = 3
 
 def tree(folds, max_depth, min_sample_size):
@@ -18,8 +18,8 @@ def tree(folds, max_depth, min_sample_size):
     results_filename = RESULTS_DIR + "tree_f%d_md%d_mss%d.csv" % (folds, max_depth, min_sample_size)
 
     with open(results_filename, "w") as f:
-        for depth in range(1, max_depth):
-            for sample_size in range(1, min_sample_size): 
+        for depth in range(1, max_depth + 1):
+            for sample_size in range(1, min_sample_size + 1): 
                 clf = our_tree(depth,sample_size)
                 scores = cross_val_score(clf, X_train, y_train, cv=folds)
                 mean_score = mean(scores)
@@ -58,7 +58,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    bagging(folds=FOLDS, n_estimators=args.n, random_state=args.rand, max_depth=args.d, min_sample_size=args.s)
+    # bagging(folds=FOLDS, n_estimators=args.n, random_state=args.rand, max_depth=args.d, min_sample_size=args.s)
     tree(folds=FOLDS, max_depth=args.d, min_sample_size=args.s)
 
 
