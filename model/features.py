@@ -26,6 +26,10 @@ def get_data(rand=False):
         featureSpace, survived = randomize(featureSpace, survived)
    return featureSpace, survived
 
+def get_test_data():
+   testFeatures = json.loads(open(DATA_DIR + "test_features.json").read())
+   return testFeatures
+
 def get_feature_labels():
    labels = {0:"Passenger ID",
              1:"Ticket Class",
