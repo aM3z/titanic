@@ -51,6 +51,7 @@ def bagging(folds, n_estimators, random_state, max_depth, min_sample_size):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Train Decision Tree and Bagging Classifiers")
 
+    parser.add_argument('-m', metavar='model', dest='model', type=int, nargs='?', help='1 for bagging, 2 for tree, 3 for bagging and tree')
     parser.add_argument('-n', metavar='estimators', dest='n', type=int, nargs='?', help='number of estimators used for bagging')
     parser.add_argument('-r', metavar='random_state', dest='rand', type=int, nargs='?', help='random state')
     parser.add_argument('-d', metavar='max_depth', dest='d', type=int, nargs='?', help='max tree depth')
@@ -58,7 +59,11 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    # bagging(folds=FOLDS, n_estimators=args.n, random_state=args.rand, max_depth=args.d, min_sample_size=args.s)
-    tree(folds=FOLDS, max_depth=args.d, min_sample_size=args.s)
-
+    if args.model == 1:
+        bagging(folds=FOLDS, n_estimators=args.n, random_state=args.rand, max_depth=args.d, min_sample_size=args.s)
+    elif args.model == 2:
+        tree(folds=FOLDS, max_depth=args.d, min_sample_size=args.s)
+    elif args.model == 3:
+        bagging(folds=FOLDS, n_estimators=args.n, random_state=args.rand, max_depth=args.d, min_sample_size=args.s)
+        tree(folds=FOLDS, max_depth=args.d, min_sample_size=args.s)
 
