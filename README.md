@@ -8,12 +8,14 @@ To run the demo, use the command line to navigate to the ./model/ directory. The
 ## Import into Python Interpreter
 Navigate to the ./model directory. Then run "python3" and enter the following:
 
+```
 >>> import features
 >>> import tree
 >>> X,y = features.get_data()
 >>> clf = tree.DecisionTreeClassifier(3,1)
 >>> clf.fit(X,y)
 >>> clf.predict([1,2,3,4,5,6,7,8,9,10])
+```
 
 The predict method takes a single row vector with entries that represent the following passenger features:
 
