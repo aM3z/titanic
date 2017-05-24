@@ -1,4 +1,4 @@
-# titanic
+# Surviving the Titanic
 
 Using decision trees to predict survival on the RMS Titanic.
 
