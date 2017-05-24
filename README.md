@@ -20,16 +20,16 @@ Navigate to the ./model directory. Then run "python3" and enter the following:
 The predict method takes a single row vector with entries that represent the following passenger features:
 
 ```
-1:"Ticket Class",
-2:"Sex",
-3:"Age",
-4:"Sibsp",
-5:"Parch",
-6:"Embark Point",
-7:"Title",
-8:"Family Size",
-9:"Age Interval",
-10:"Deck"}
+1:"Ticket Class"
+2:"Sex"
+3:"Age"
+4:"Sibsp"
+5:"Parch"
+6:"Embark Point"
+7:"Title"
+8:"Family Size"
+9:"Age Interval"
+10:"Deck"
 ```
 
 Please see the ./preprocessing/features.json file for examples.
