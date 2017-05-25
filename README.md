@@ -34,3 +34,11 @@ The predict method takes a single row vector with entries that represent the fol
 
 Please see the ./preprocessing/features.json file for examples.
 
+## References
+R Core Team (2015). R: A language and environment for statistical
+  computing. R Foundation for Statistical Computing, Vienna, Austria.
+  URL https://www.R-project.org/.
+
+cikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
+
+
